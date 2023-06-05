@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0041)https://godsplanrp.github.io/beanmachine/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 	<title>UWU Cafe Menu</title>
