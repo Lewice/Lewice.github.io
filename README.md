@@ -212,14 +212,14 @@
   </div>
   
    <div>
-    <input type="checkbox" id="cat40" value="7000">
-    <label for="cat40">40 for 7000$</label>
+    <input type="checkbox" id="cat50" value="7000">
+    <label for="cat40">50 for 7000$</label>
     <input type="number" value="1" min="1">
   </div>
   
   <div>
-    <input type="checkbox" id="cat50" value="9000">
-    <label for="cat50">50 for 9000$</label>
+    <input type="checkbox" id="cat100" value="9000">
+    <label for="cat50">100 for 9000$</label>
     <input type="number" value="1" min="1">
   </div>
   
