@@ -371,12 +371,6 @@
   
   <div style="margin-bottom: 10px;"></div>
   
-  <h3> Misc Items </h3> 
-  <div>
-  <input type="checkbox" id="MysteryBox" value="1000">
-  <label for="MysteryBox">Mystery Box - 1000$</label>
-  <input type="number" value="1" min="1" max="5">
-</div>
 
 <div style="margin-bottom: 10px;"></div>
   
