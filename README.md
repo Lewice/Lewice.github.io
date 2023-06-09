@@ -418,7 +418,7 @@ function resetCalculator() {
     <label for="name">Employee's Name:</label>
     <input type="text" id="name">
   </div>
-  <p><b> Must Have or you will not get commision paid!</b></p>
+  <p><b> Include Kitchen and Front staff in names section (see Stark for explanation). If they are missing, you will not get paid.</b></p>
 
 <div style="margin-bottom: 60px;"></div>
 
