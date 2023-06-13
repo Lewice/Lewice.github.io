@@ -396,19 +396,19 @@ function resetCalculator() {
   <h3> Discount Items</h3> 
   <div>
   <input type="checkbox" id="25off" value="-25%">
-  <label for="25off">25% Discount Item - 25% off </label>
+  <label for="25off">Mech, EMS, LEO Disount - 25% off </label>
   <input type="number" value="1" min="1" max="1">
 </div>
 
 <div>
   <input type="checkbox" id="30off" value="-30%">
-  <label for="30off">30% Discount Item - 30% off</label>
+  <label for="30off">Non Fresh Items - 30% off</label>
   <input type="number" value="1" min="1" max="1">
 </div>
 
 <div>
   <input type="checkbox" id="50off" value="-50%">
-  <label for="50off">50% Discount Item - 50% off</label>
+  <label for="50off">Employee Discount - 50% off</label>
   <input type="number" value="1" min="1" max="1">
 </div>
 
