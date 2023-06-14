@@ -433,6 +433,9 @@ function resetCalculator() {
   <span id="discount-total">0.00</span>
 </div>
 
+<a href="another-page.html" target="_blank">Click here to open another page in a new tab. if you have order click submite first</a>
+
+
  
   
   
