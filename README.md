@@ -177,7 +177,7 @@ function resetCalculator() {
 </head>
 <body>
 	
-<div style="margin-bottom: 10px;"></div>
+<div style="margin-bottom: 100px;"></div>
  
 <body style="background-color:deeppink;">
 	<img src="BackGround.png" alt="Company Logo!">
@@ -481,10 +481,10 @@ function resetCalculator() {
   <button class="submit-button" onclick="submitOrder()">Submit Order</button>
   <button class="reset-button" onclick="resetCalculator()">Reset</button>
 
-  <h3>Employee of the Month</h3>
+  <h3>Employee of the Week</h3>
 <div class="employee-box">
   <img src="Zach_employee_of_the_month.jpg" alt="Employee of the Week!">
-  <p>Meet our exceptional employee of the month, Zach! He consistently goes above and beyond in providing excellent service to our customers. Congratulations, Zach!</p>
+  <p>Meet our exceptional employee of the Week, Zach! He consistently goes above and beyond in providing excellent service to our customers. Congratulations, Zach!</p>
 </div>
   
   
