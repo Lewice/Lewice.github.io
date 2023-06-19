@@ -431,10 +431,10 @@ function resetCalculator() {
 <h3>Misc.</h3>
 
 <div>
-    <input type="checkbox" id="MysteryGift" value="3000">
-    <label for="HomemadeCatCookie">Mystery Gift - 3000$</label>
-    <input type="number" value="1" min="1">
-  </div>
+  <input type="checkbox" id="MysteryGift" value="3000" disabled>
+  <label for="MysteryBox">Mystery Gift - $3000</label>
+  <input type="number" value="1" min="1">
+</div>
 
 <div style="margin-bottom: 100px;"></div>
 
@@ -476,7 +476,7 @@ function resetCalculator() {
   <h3>Employee of the Month</h3>
 <div class="employee-box">
   <img src="Zach_employee_of_the_month.jpg" alt="Employee of the Week!">
-  <p>Meet our exceptional employee of the month, John Doe! He consistently goes above and beyond in providing excellent service to our customers. Congratulations, John!</p>
+  <p>Meet our exceptional employee of the month, Zach! He consistently goes above and beyond in providing excellent service to our customers. Congratulations, Zach!</p>
 </div>
   
   
