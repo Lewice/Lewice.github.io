@@ -176,12 +176,20 @@ function resetCalculator() {
   </script>
 </head>
 <body>
+	
+<div style="margin-bottom: 10px;"></div>
+ 
 <body style="background-color:deeppink;">
 	<img src="BackGround.png" alt="Company Logo!">
   <h1>Menu Calculator</h1>
   
   <h2>Menu Items</h2>
+
+  <div style="margin-bottom: 10px;"></div>
+  
   <h3>Specials</h3>
+
+  <div style="margin-bottom: 10px;"></div>
   
   <div>
     <input type="checkbox" id="uwueats" value="1200$">
