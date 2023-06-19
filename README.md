@@ -177,7 +177,7 @@ function resetCalculator() {
 </head>
 <body>
 	
-<div style="margin-bottom: 100px;"></div>
+<div style="margin-bottom: 250px;"></div>
  
 <body style="background-color:deeppink;">
 	<img src="BackGround.png" alt="Company Logo!">
