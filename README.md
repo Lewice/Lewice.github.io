@@ -181,30 +181,46 @@ function resetCalculator() {
   <h1>Menu Calculator</h1>
   
   <h2>Menu Items</h2>
+  <h3>Specials</h3>
+  
+  <div>
+    <input type="checkbox" id="uwueats" value="1200$">
+    <label for="Velmachoice">UWU Eats - 1200$</label>
+    <input type="number" value="1" min="1">
+  </div>
+  
+  <div>
+    <input type="checkbox" id="Davechoice" value="1500$">
+    <label for="Davechoice">Uwu Daddy Specials - 1500$</label>
+    <input type="number" value="1" min="1">
+  </div>
+
+  <!--This is where you change the combos with prices-->
+  
   
   <h3> Combos </h3>
   
   <div>
-    <input type="checkbox" id="ColinChoice" value="400">
-    <label for="ColinChoice">Colin's Choice - 400$</label>
+    <input type="checkbox" id="ColinChoice" value="300"><!--The price is the value, change that and then the name and itll change on the menu-->
+    <label for="ColinChoice">Colin's Choice - 300$</label>
     <input type="number" value="1" min="1">
   </div>
   
   <div>
-    <input type="checkbox" id="JudysChoice" value="400">
-    <label for="JudysChoice">Judy's Choice - 400    $</label>
+    <input type="checkbox" id="JudysChoice" value="300">
+    <label for="JudysChoice">Judy's Choice - 300    $</label>
     <input type="number" value="1" min="1">
   </div>
   
   <div>
-    <input type="checkbox" id="Velmachoice" value="400$">
-    <label for="Velmachoice">Velma's choice - 400$</label>
+    <input type="checkbox" id="Velmachoice" value="300$">
+    <label for="Velmachoice">Velma's choice - 300$</label>
     <input type="number" value="1" min="1">
   </div>
   
   <div>
-    <input type="checkbox" id="Davechoice" value="400$">
-    <label for="Davechoice">Daves's Choice - 400$</label>
+    <input type="checkbox" id="Davechoice" value="300$">
+    <label for="Davechoice">Daves's Choice - 300$</label>
     <input type="number" value="1" min="1">
   </div>
   
@@ -261,14 +277,14 @@ function resetCalculator() {
   </div>
   
   <div>
-    <input type="checkbox" id="TurkeySammie" value="200">
-    <label for="TurkeySammie">Turkey Sammie - 200$</label>
+    <input type="checkbox" id="TurkeySammie" value="150">
+    <label for="TurkeySammie">Turkey Sammie - 150$</label>
     <input type="number" value="1" min="1">
   </div>
   
    <div>
-    <input type="checkbox" id="BeefSammie" value="200$">
-    <label for="BeefSammie">Beef Sammie - 200$</label>
+    <input type="checkbox" id="BeefSammie" value="150$">
+    <label for="BeefSammie">Beef Sammie - 150$</label>
     <input type="number" value="1" min="1">
   </div>
   
@@ -314,8 +330,8 @@ function resetCalculator() {
   </div>
   
   <div>
-    <input type="checkbox" id="PumpkinSpiceLate " value="150">
-    <label for="PumpkinSpiceLate">Pumpkin Spice Late  - 150$</label>
+    <input type="checkbox" id="PumpkinSpiceLate " value="125">
+    <label for="PumpkinSpiceLate">Pumpkin Spice Late  - 125$</label>
     <input type="number" value="1" min="1">
   </div>
   
@@ -325,9 +341,9 @@ function resetCalculator() {
     <input type="number" value="1" min="1">
   </div>
   
-    <div>
-    <input type="checkbox" id="BobbaTea " value="150">
-    <label for="BobbaTea">Bobba Tea  - 150$</label>
+<div>
+    <input type="checkbox" id="BobbaTea " value="125">
+    <label for="BobbaTea">Bobba Tea  - 125$</label>
     <input type="number" value="1" min="1">
   </div>
   
@@ -350,7 +366,7 @@ function resetCalculator() {
   
   <div>
     <input type="checkbox" id="AppleCrumble" value="150">
-    <label for="AppleCrumble">Apple Crumble - 150$</label>
+    <label for="AppleCrumble">Apple Crumble - 125$</label>
     <input type="number" value="1" min="1">
   </div>
   
@@ -360,7 +376,7 @@ function resetCalculator() {
     <input type="number" value="1" min="1">
   </div>
   
-    <div>
+<div>
     <input type="checkbox" id="CatCupcake" value="125">
     <label for="CatCupcake">Cat Cupcake - 125$</label>
     <input type="number" value="1" min="1">
@@ -412,6 +428,14 @@ function resetCalculator() {
   <input type="number" value="1" min="1" max="1">
 </div>
 
+<h3>Misc.</h3>
+
+<div>
+    <input type="checkbox" id="MysteryGift" value="3000">
+    <label for="HomemadeCatCookie">Mystery Gift - 3000$</label>
+    <input type="number" value="1" min="1">
+  </div>
+
 <div style="margin-bottom: 100px;"></div>
 
 <div>
@@ -448,6 +472,12 @@ function resetCalculator() {
   <button class="calculate-button" onclick="calculateTotal()">Calculate Total</button>
   <button class="submit-button" onclick="submitOrder()">Submit Order</button>
   <button class="reset-button" onclick="resetCalculator()">Reset</button>
+
+  <h3>Employee of the Month</h3>
+<div class="employee-box">
+  <img src="Zach_employee_of_the_month.jpg" alt="Employee of the Week!">
+  <p>Meet our exceptional employee of the month, John Doe! He consistently goes above and beyond in providing excellent service to our customers. Congratulations, John!</p>
+</div>
   
   
   <div style="margin-bottom: 100px;"></div>
