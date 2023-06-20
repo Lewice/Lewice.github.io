@@ -443,7 +443,7 @@ function resetCalculator() {
 <h3>Misc.</h3>
 
 <div>
-  <input type="checkbox" id="MysteryGift" value="3000" disabled>
+  <input type="checkbox" id="MysteryGift" value="3000" >
   <label for="MysteryBox">Mystery Gift - $3000</label>
   <input type="number" value="1" min="1">
 </div>
