@@ -257,10 +257,16 @@ function resetCalculator() {
     <label for="cat30">30 for 3500$</label>
     <input type="number" value="1" min="1">
   </div>
+
+  <div>
+    <input type="checkbox" id="cat30" value="3500">
+    <label for="cat40">40 for 4500$</label>
+    <input type="number" value="1" min="1">
+  </div>
   
    <div>
     <input type="checkbox" id="cat50" value="7000">
-    <label for="cat40">50 for 7000$</label>
+    <label for="cat50">50 for 5500$</label>
     <input type="number" value="1" min="1">
   </div>
   
