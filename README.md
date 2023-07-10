@@ -206,6 +206,18 @@ function resetCalculator() {
     <label for="Davechoice">Uwu Daddy Specials - 1500$</label>
     <input type="number" value="1" min="1">
   </div>
+  
+  <div>
+    <input type="checkbox" id="Davechoice" value="1500$">
+    <label for="Davechoice">UWU Mommy Special - 1500$</label>
+    <input type="number" value="1" min="1">
+  </div>
+  
+  <div>
+    <input type="checkbox" id="Davechoice" value="1500$">
+    <label for="Davechoice">Hot Gworl Special - 250$</label>
+    <input type="number" value="1" min="1">
+  </div>
 
   <!--This is where you change the combos with prices-->
   
@@ -331,7 +343,7 @@ function resetCalculator() {
   
   <div>
     <input type="checkbox" id="FreshLemonade" value="125">
-    <label for="FreshLemonade">Fresh Lemonade - 125$</label>
+    <label for="FreshLemonade">Fresh Lemonade - 200$</label>
     <input type="number" value="1" min="1">
   </div>
   
