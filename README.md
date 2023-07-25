@@ -62,7 +62,7 @@
     .total-box {
       display: flex;
       justify-content: flex-end;
-      align-self: flex-end;
+      align-self: Center;
       margin-top: 20px;
     }
     
@@ -117,51 +117,83 @@
 
     
     function submitOrder() {
-  var name = document.getElementById('name').value;
-  
-  // Check if the name field is empty
-  if (name.trim() === '') {
-    alert('Please enter a name.');
-    return;
+    var name = document.getElementById('name').value;
+    if (name.trim() === '') {
+      alert('Please enter a name.');
+      return;
+    }
+
+    // Collect selected items and their quantities
+    var selectedItems = [];
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    checkboxes.forEach(function (checkbox) {
+      var itemName = checkbox.nextElementSibling.textContent;
+      var quantityInput = checkbox.parentNode.querySelector('input[type="number"]');
+      var quantity = parseInt(quantityInput.value);
+      var price = parseFloat(checkbox.value);
+      selectedItems.push({ name: itemName, quantity: quantity, price: price });
+    });
+
+    var total = 0;
+    var discountTotal = 0;
+
+    selectedItems.forEach(function (item) {
+      if (item.price < 0) {
+        var discountPercentage = Math.abs(item.price);
+        var itemDiscount = total * (discountPercentage / 100);
+        discountTotal += itemDiscount;
+      } else {
+        total += item.price * item.quantity;
+      }
+    });
+
+    var commission = (total * 0.08).toFixed(2);
+    var totalWithDiscount = total - discountTotal;
+
+    alert('Order submitted!');
+
+    var discordWebhookURL = 'https://discord.com/api/webhooks/1115717872002551860/QeP0olu8qsHp7pE0XxHqB7dTK2c9i7hqA1vX4LB8ogLAw14NBj08zLN--8K9hvHeB0hO';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', discordWebhookURL, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    var message = {
+      content: 'New order!',
+      embeds: [{
+        title: 'Order Details',
+        fields: [
+          {
+            name: 'Name',
+            value: name,
+            inline: true
+          },
+          {
+            name: 'Total',
+            value: '$' + totalWithDiscount.toFixed(2),
+            inline: true
+          },
+          {
+            name: 'Discount Total',
+            value: '$' + discountTotal.toFixed(2),
+            inline: true
+          },
+          {
+            name: 'Commission (8%)',
+            value: '$' + commission,
+            inline: true
+          },
+          {
+            name: 'Ordered Items',
+            value: selectedItems.map(item => `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`).join('\n'),
+            inline: false
+          }
+        ]
+      }]
+    };
+
+    xhr.send(JSON.stringify(message));
   }
-  var total = parseFloat(document.getElementById('total').textContent);
-  var commission = (total * 0.05).toFixed(2); // Calculate the commission (5%)
-  
-  alert('Order submitted!');
-  
-  var discordWebhookURL = 'https://discord.com/api/webhooks/1115717872002551860/QeP0olu8qsHp7pE0XxHqB7dTK2c9i7hqA1vX4LB8ogLAw14NBj08zLN--8K9hvHeB0hO'; // Replace with your Discord webhook URL
-  
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', discordWebhookURL, true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  
-  var message = {
-    content: 'New order!',
-    embeds: [{
-      title: 'Order Details',
-      fields: [
-        {
-          name: 'Name',
-          value: name,
-          inline: true
-        },
-        {
-          name: 'Total',
-          value: '$' + total.toFixed(2),
-          inline: true
-        },
-        {
-          name: 'Commission (8%)',
-          value: '$' + commission,
-          inline: true
-        }
-      ]
-    }]
-    
-  };
-  
-  xhr.send(JSON.stringify(message));
-}
 
 function resetCalculator() {
   var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -181,7 +213,7 @@ function resetCalculator() {
 </head>
 <body>
 	
-<div style="margin-bottom: 250px;"></div>
+<div style="margin-bottom: 25px;"></div>
  
 <body style="background-color:deeppink;">
 	<img src="BackGround.png" alt="Company Logo!">
@@ -474,8 +506,7 @@ function resetCalculator() {
   </div>
   <p><b> Include Kitchen and Front staff in names section </b></p>
 
-<div style="margin-bottom: 60px;"></div>
-
+<div style="margin-bottom: 25px;"></div>
  
 <div class="total-box">
   <span>Total: $</span>
@@ -489,14 +520,12 @@ function resetCalculator() {
 
 
 
+
  
   
   
-  <div style="margin-bottom: 10px;"></div>
+  <div style="margin-bottom: 45px;"></div>
   
-
-  
-  <div style="margin-bottom: 30px;"></div>
 
   <button class="calculate-button" onclick="calculateTotal()">Calculate Total</button>
   <button class="submit-button" onclick="submitOrder()">Submit Order</button>
@@ -505,4 +534,4 @@ function resetCalculator() {
  
   
   
-  <div style="margin-bottom: 100px;"></div>
+  <div style="margin-bottom: 10px;"></div>
