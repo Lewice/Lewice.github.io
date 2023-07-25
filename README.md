@@ -487,7 +487,6 @@ function resetCalculator() {
   <span id="discount-total">0.00</span>
 </div>
 
-<a href="new_1.html">Click here to spin the wheel. if you have order click submit it first</a>
 
 
  
