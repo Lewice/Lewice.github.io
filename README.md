@@ -503,11 +503,7 @@ function resetCalculator() {
   <button class="submit-button" onclick="submitOrder()">Submit Order</button>
   <button class="reset-button" onclick="resetCalculator()">Reset</button>
 
-  <h3>Employee of the Week</h3>
-<div class="employee-box">
-  <img src="Zach_employee_of_the_month.jpg" alt="Employee of the Week!">
-  <p>Meet our exceptional employee of the Week, Zach! He consistently goes above and beyond in providing excellent service to our customers. Congratulations, Zach!</p>
-</div>
+ 
   
   
   <div style="margin-bottom: 100px;"></div>
