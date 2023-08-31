@@ -539,7 +539,7 @@ function resetCalculator() {
   
 
   <button class="calculate-button" onclick="calculateTotal()">Calculate Total</button>
-  <button class="submit-button" onclick="submitAndReset()">Submit Order & Reset</button>
+  <button class="submit-button" onclick="submitAndReset()">Submit Order</button>
   <button class="reset-button" onclick="resetCalculator()">Reset</button>
 
  
