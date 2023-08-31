@@ -209,6 +209,11 @@ function resetCalculator() {
   
   document.getElementById('total').textContent = '0.00';
 }
+	function submitAndReset() {
+	submitOrder();
+	resetCalculator();
+}
+
   </script>
 </head>
 <body>
@@ -534,7 +539,7 @@ function resetCalculator() {
   
 
   <button class="calculate-button" onclick="calculateTotal()">Calculate Total</button>
-  <button class="submit-button" onclick="submitOrder()">Submit Order</button>
+  <button class="submit-button" onclick="submitAndReset()">Submit Order & Reset</button>
   <button class="reset-button" onclick="resetCalculator()">Reset</button>
 
  
