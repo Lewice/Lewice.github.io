@@ -110,7 +110,7 @@
     totalElement.textContent = total.toFixed(2);
 
     var discountTotalElement = document.getElementById('discount-total');
-    var discount = total * 0.08;
+    var discount = total * 0.10;
     discountTotalElement.textContent = discount.toFixed(2);
   }
 
@@ -147,7 +147,7 @@
       }
     });
 
-    var commission = (total * 0.08).toFixed(2);
+    var commission = (total * 0.10).toFixed(2);
     var totalWithDiscount = total - discountTotal;
 
     alert('Order submitted!');
@@ -519,7 +519,7 @@ function resetCalculator() {
 </div>
 
 <div class="total-box">
-  <span>Commision (8%): $</span>
+  <span>Commision (10%): $</span>
   <span id="discount-total">0.00</span>
 </div>
 
