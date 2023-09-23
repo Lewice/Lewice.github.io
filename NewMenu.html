@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send to Discord Webhook</title>
+    <style>
+        body {
+            background-color: pink;
+            text-align: center; /* Center-align text content */
+        }
+
+        #message-form {
+            margin: 0 auto; /* Center-align the form horizontally */
+            width: 50%; /* Adjust the width as needed */
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        /* Additional styles for labels and inputs can be added here */
+    </style>
+</head>
+<body>
+    <h1>Employee of the month Submission form</h1>
+    <form id="message-form">
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message"><br><br>
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image"><br><br>
+        <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+
+    <script>
+        function sendMessage() {
+            const webhookUrl = 'https://discord.com/api/webhooks/1155166928663490642/DgX1DW-dW6YGYDVelbcyO7BvKxOcq07_0C68RKb3QtXl8lmpiCAqtiF1hwQ__8wS_tYE';
+
+            const message = document.getElementById('message').value;
+            const image = document.getElementById('image').value;
+
+            const data = {
+                content: message,
+                embeds: [
+                    {
+                        image: {
+                            url: image
+                        }
+                    }
+                ]
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Message sent successfully!');
+                } else {
+                    alert('Error sending message.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            });
+        }
+    </script>
+</body>
+</html>
