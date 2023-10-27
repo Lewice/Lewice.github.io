@@ -255,119 +255,135 @@
 <script>
         // JavaScript code
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const quantities = document.querySelectorAll('.quantity');
-        const calculateBtn = document.getElementById('calculateBtn');
-        const subtotalDisplay = document.getElementById('subtotal');
-        const commissionDisplay = document.getElementById('commission');
-        const discountAmountDisplay = document.getElementById('discountAmount');
-        const totalDisplay = document.getElementById('subtotal'); // Changed to subtotal, assuming it's the total before applying discount and commission
-        const menuForm = document.getElementById('menuForm');
-        const employeeNameInput = document.getElementById('employeeName');
-        const discountOptions = document.getElementsByName('discount');
+const quantities = document.querySelectorAll('.quantity');
+const calculateBtn = document.getElementById('calculateBtn');
+const subtotalDisplay = document.getElementById('subtotal');
+const commissionDisplay = document.getElementById('commission');
+const discountAmountDisplay = document.getElementById('discountAmount');
+const totalDisplay = document.getElementById('subtotal'); // Changed to subtotal, assuming it's the total before applying discount and commission
+const menuForm = document.getElementById('menuForm');
+const employeeNameInput = document.getElementById('employeeName');
+const discountOptions = document.getElementsByName('discount');
 
-        calculateBtn.addEventListener('click', calculateTotal);
+calculateBtn.addEventListener('click', calculateTotal);
 
-        function calculateTotal() {
-            let subtotal = 0;
-            let itemsOrdered = [];
+function calculateTotal() {
+    let subtotal = 0;
+    let itemsOrdered = [];
 
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    const itemPrice = parseFloat(checkbox.value);
-                    const quantity = parseInt(quantities[index].value);
-                    subtotal += itemPrice * quantity;
-                    itemsOrdered.push(checkbox.parentElement.innerText.trim());
-                }
-            });
-
-            const commission = subtotal * 0.1;
-            let selectedDiscount = 0;
-            for (let i = 0; i < discountOptions.length; i++) {
-                if (discountOptions[i].checked) {
-                    selectedDiscount = parseFloat(discountOptions[i].value);
-                    break;
-                }
-            }
-
-            const discountPercentage = selectedDiscount / 100;
-            const discountAmount = subtotal * discountPercentage;
-
-            const total = subtotal - discountAmount;
-
-            subtotalDisplay.textContent = subtotal.toFixed(2);
-            commissionDisplay.textContent = commission.toFixed(2);
-            discountAmountDisplay.textContent = discountAmount.toFixed(2);
-            totalDisplay.textContent = total.toFixed(2);
-
-            return { itemsOrdered, subtotal, commission, discountAmount, total };
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            const itemPrice = parseFloat(checkbox.value);
+            const quantity = parseInt(quantities[index].value);
+            subtotal += itemPrice * quantity;
+            itemsOrdered.push(checkbox.parentElement.innerText.trim());
         }
+    });
 
-        menuForm.addEventListener('submit', function (event) {
-            event.preventDefault();
+    const commission = subtotal * 0.1;
+    let selectedDiscount = 0;
+    for (let i = 0; i < discountOptions.length; i++) {
+        if (discountOptions[i].checked) {
+            selectedDiscount = parseFloat(discountOptions[i].value);
+            break;
+        }
+    }
 
-            const employeeName = employeeNameInput.value;
-            const { itemsOrdered, subtotal, selectedDiscount, commission, discountAmount, total } = calculateTotal();
+    const discountPercentage = selectedDiscount / 100;
+    const discountAmount = subtotal * discountPercentage;
 
-            const data = {
-                content: 'New Order!',
-                embeds: [{
-                    title: 'Order Details',
-                    color: 0xFF5733,
-                    fields: [
-                        {
-                            name: 'Name',
-                            value: employeeName,
-                            inline: true
-                        },
-                        {
-                            name: 'Total',
-                            value: '$' + total.toFixed(2),
-                            inline: true
-                        },
-                        {
-                            name: 'Discount Total',
-                            value: '$' + discountAmount.toFixed(2),
-                            inline: true
-                        },
-                        {
-                            name: 'Discount Applied',
-                            value: selectedDiscount + '%',
-                            inline: true
-                        },
-                        {
-                            name: 'Commission (10%)',
-                            value: '$' + commission.toFixed(2),
-                            inline: true
-                        },
-                        {
-                            name: 'Ordered Items',
-                            value: itemsOrdered.join('\n'),
-                            inline: false
-                        }
-                    ]
-                }]
-            };
+    const total = subtotal - discountAmount;
 
-            // Discord Webhook URL (replace with your actual webhook URL)
-            const webhookUrl = 'https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy';
+    subtotalDisplay.textContent = subtotal.toFixed(2);
+    commissionDisplay.textContent = commission.toFixed(2);
+    discountAmountDisplay.textContent = discountAmount.toFixed(2);
+    totalDisplay.textContent = total.toFixed(2);
 
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+    return { itemsOrdered, subtotal, commission, discountAmount, total };
+}
+
+function resetMenu() {
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    quantities.forEach(quantityInput => {
+        quantityInput.value = 1;
+    });
+}
+
+menuForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const employeeName = employeeNameInput.value;
+    const { itemsOrdered, subtotal, selectedDiscount, commission, discountAmount, total } = calculateTotal();
+
+    const data = {
+        content: 'New Order!',
+        embeds: [{
+            title: 'Order Details',
+            color: 0xFF5733,
+            fields: [
+                {
+                    name: 'Name',
+                    value: employeeName,
+                    inline: true
                 },
-                body: JSON.stringify(data),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    console.log('Order details sent successfully to Discord.');
-                })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
+                {
+                    name: 'Total',
+                    value: '$' + total.toFixed(2),
+                    inline: true
+                },
+                {
+                    name: 'Discount Total',
+                    value: '$' + discountAmount.toFixed(2),
+                    inline: true
+                },
+                {
+                    name: 'Discount Applied',
+                    value: selectedDiscount + '%',
+                    inline: true
+                },
+                {
+                    name: 'Commission (10%)',
+                    value: '$' + commission.toFixed(2),
+                    inline: true
+                },
+                {
+                    name: 'Ordered Items',
+                    value: itemsOrdered.join('\n'),
+                    inline: false
+                }
+            ]
+        }]
+    };
+
+    // Discord Webhook URL (replace with your actual webhook URL)
+    const webhookUrl = 'https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy';
+
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log('Order details sent successfully to Discord.');
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
         });
+
+    // Reset menu items and quantities after submitting the order
+    resetMenu();
+
+    // Clear the employee name input field
+    employeeNameInput.value = '';
+});
     </script>
 </body>
 
