@@ -8,8 +8,9 @@
     <style>
         body {
             text-align: center;
-            padding: 20px; /* Add padding to the body */
+			padding: 20px;
 			background-color: #963264;
+			font-size: 16px; /* Default font size */
         }
 
         .category {
@@ -20,6 +21,7 @@
 
         .item {
             margin-bottom: 10px;
+			font-size: 18px;
         }
 
         h2, #total, #subtotal, #commission {
@@ -32,7 +34,11 @@
         }
 		.menu-image {
             width: 100%; /* Set the width of the image to 100% of its container */
+			
+			
         }
+		
+		
     </style>
 </head>
 
@@ -245,8 +251,9 @@
 			
 			  
 
-            <input type="submit" value="Submit Order">
-			<button type="button" id="calculateBtn">Calculate Total</button>
+            <button type="button" id="calculateBtn">Calculate Total</button>
+			<input type="submit" value="Submit Order">
+			
         </div>
     </form>
 
@@ -303,14 +310,22 @@
     }
 
     function resetMenu() {
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
 
-        quantities.forEach(quantityInput => {
-            quantityInput.value = 1;
-        });
-    }
+    quantities.forEach(quantityInput => {
+        quantityInput.value = 1;
+    });
+
+    clearDiscountOptions(); // Call the function to clear discount options
+	
+	function clearDiscountOptions() {
+    discountOptions.forEach(option => {
+        option.checked = false;
+    });
+}
+}
 
     menuForm.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -386,10 +401,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
