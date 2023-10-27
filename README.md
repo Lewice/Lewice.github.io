@@ -337,7 +337,7 @@ menuForm.addEventListener('submit', function (event) {
                 {
                     name: 'Discount Total',
                     value: '$' + discountAmount.toFixed(2),
-                    inline: true
+                    inline: false
                 },
                 {
                     name: 'Discount Applied',
@@ -372,7 +372,8 @@ menuForm.addEventListener('submit', function (event) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            console.log('Order details sent successfully to Discord.');
+            // Show an alert when the order is successfully sent
+            alert('Order submitted successfully!');
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
