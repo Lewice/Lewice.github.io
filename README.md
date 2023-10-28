@@ -241,9 +241,9 @@
             <h2>Discount Amount: $<span id="discountAmount">0.00</span></h2>
 			
 			<!-- Discount Options -->
-            <input type="radio" name="discount" value="25"> 25% Off
-            <input type="radio" name="discount" value="30"> 30% Off
-            <input type="radio" name="discount" value="50"> 50% Off
+            <input type="radio" name="discount" value="25"> 25% Off (EMS,PD,LEO MECH
+            <input type="radio" name="discount" value="30"> 30% Off (Freshness under 100%)
+            <input type="radio" name="discount" value="50"> 50% Off (Employee Discount)
 
             
 			
