@@ -21,7 +21,7 @@
 
         .item {
             margin-bottom: 10px;
-			font-size: 18px;
+			font-size: 20px;
         }
 
         h2, #total, #subtotal, #commission {
