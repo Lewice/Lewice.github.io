@@ -43,6 +43,7 @@
 </head>
 
 <body>
+<a href="Old_Menu.html">Old Menu</a>
 	
     <form id="menuForm">
         <div class="category">
