@@ -4,10 +4,10 @@
     <title>Menu Calculator</title>
     <style>
         body {
-            text-align: center;
-			padding: 20px;
-			background-color: #963264;
-			font-size: 16px; /* Default font size */
+            float: left;
+	    padding: 20px;
+	    background-color: #963264;
+	    font-size: 16px; /* Default font size */
         }
 
         .category {
@@ -28,11 +28,6 @@
         .bottom-row {
             text-align: center;
             margin-top: 20px;
-        }
-		.menu-image {
-            width: 100%; /* Set the width of the image to 100% of its container */
-			
-			
         }
 		
 		
