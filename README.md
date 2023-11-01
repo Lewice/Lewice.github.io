@@ -21,7 +21,7 @@
 
         .item {
             margin-bottom: 10px;
-			font-size: 20px;
+			font-size: 24px;
         }
 
         h2, #total, #subtotal, #commission {
@@ -43,7 +43,6 @@
 </head>
 
 <body>
-<a href="Old_Menu.html">Old Menu</a>
 	
     <form id="menuForm">
         <div class="category">
@@ -258,7 +257,6 @@
         </div>
     </form>
 
-    <!-- ... (your existing HTML code) ... -->
 
 <script>
            // JavaScript code
@@ -276,17 +274,20 @@
     calculateBtn.addEventListener('click', calculateTotal);
 
     function calculateTotal() {
-        let subtotal = 0;
-        let itemsOrdered = [];
+    let subtotal = 0;
+    let itemsOrdered = [];
 
-        checkboxes.forEach((checkbox, index) => {
-            if (checkbox.checked) {
-                const itemPrice = parseFloat(checkbox.value);
-                const quantity = parseInt(quantities[index].value);
-                subtotal += itemPrice * quantity;
-                itemsOrdered.push(checkbox.parentElement.innerText.trim());
-            }
-        });
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            const itemName = checkbox.parentElement.innerText.trim();
+            const itemPrice = parseFloat(checkbox.value);
+            const quantity = parseInt(quantities[index].value);
+            subtotal += itemPrice * quantity;
+            
+            // Add item details to the itemsOrdered array
+            itemsOrdered.push({ name: itemName, quantity: quantity, price: itemPrice });
+        }
+    });
 
         const commission = subtotal * 0.1;
         let selectedDiscount = 0;
@@ -307,8 +308,8 @@
         discountAmountDisplay.textContent = discountAmount.toFixed(2);
         totalDisplay.textContent = total.toFixed(2);
 
-        return { itemsOrdered, subtotal, commission, discountAmount, total };
-    }
+        return { itemsOrdered, subtotal, selectedDiscount, commission, discountAmount, total };
+}
 
     function resetMenu() {
     checkboxes.forEach(checkbox => {
@@ -328,51 +329,56 @@
 }
 }
 
-    menuForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+    menuForm.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        const employeeName = employeeNameInput.value;
-        const { itemsOrdered, subtotal, selectedDiscount, commission, discountAmount, total } = calculateTotal();
+    const employeeName = employeeNameInput.value;
+    const { itemsOrdered, subtotal, selectedDiscount, commission, discountAmount, total } = calculateTotal();
+
+    if (total <= 0) {
+        alert('Error: Total amount must be greater than 0. Please select items and calculate the total again.');
+        return;
+    }
 
         const data = {
-            content: 'New Order!',
-            embeds: [{
-                title: 'Order Details',
-                color: 0xFF5733,
-                fields: [
-                    {
-                        name: 'Name',
-                        value: employeeName,
-                        inline: true
-                    },
-                    {
-                        name: 'Total',
-                        value: '$' + total.toFixed(2),
-                        inline: true
-                    },
-                    {
-                        name: 'Discount Total',
-                        value: '$' + discountAmount.toFixed(2),
-                        inline: false
-                    },
-                    {
-                        name: 'Discount Applied',
-                        value: selectedDiscount + '%',
-                        inline: true
-                    },
-                    {
-                        name: 'Commission (10%)',
-                        value: '$' + commission.toFixed(2),
-                        inline: true
-                    },
-                    {
-                        name: 'Ordered Items',
-                        value: itemsOrdered.join('\n'),
-                        inline: false
-                    }
-                ]
-            }]
-        };
+                content: 'New Order!',
+                embeds: [{
+                    title: 'Order Details',
+                    color: 0xFF5733,
+                    fields: [
+                        {
+                            name: 'Name',
+                            value: employeeName,
+                            inline: true
+                        },
+                        {
+                            name: 'Total',
+                            value: '$' + total.toFixed(2),
+                            inline: true
+                        },
+                        {
+                            name: 'Discount Total',
+                            value: '$' + discountAmount.toFixed(2),
+                            inline: false
+                        },
+                        {
+                            name: 'Discount Applied',
+                            value: selectedDiscount + '%',
+                            inline: true
+                        },
+                        {
+                            name: 'Commission (10%)',
+                            value: '$' + commission.toFixed(2),
+                            inline: true
+                        },
+                        {
+                            name: 'Ordered Items',
+                            value: itemsOrdered.map(item => `${item.quantity}x ${item.name} - $${item.price.toFixed(2)}`).join('\n'),
+                            inline: false
+                        }
+                    ]
+                }]
+            };
 
         // Discord Webhook URL (replace with your actual webhook URL)
         const webhookUrl = 'https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy';
