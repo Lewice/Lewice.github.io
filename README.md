@@ -4,7 +4,7 @@
     <title>Menu Calculator</title>
     <style>
         body {
-            float: left;
+            text-align: center;
 	    padding: 20px;
 	    background-color: #963264;
 	    font-size: 16px; /* Default font size */
