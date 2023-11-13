@@ -291,9 +291,15 @@ function calculateTotal() {
     }
 
     const discountPercentage = selectedDiscount / 100;
-    const discountAmount = subtotal * discountPercentage;
+    let discountAmount = 0;
 
-    // Calculate the commission after applying the discount
+    // Exclude mystery boxes from discount calculations
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked && checkbox.value !== "5000" && checkbox.value !== "2500") {
+            discountAmount += parseFloat(checkbox.value) * parseInt(quantities[index].value) * discountPercentage;
+        }
+    });
+
     const discountedSubtotal = subtotal - discountAmount;
     const commission = discountedSubtotal * 0.1;
 
