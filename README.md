@@ -266,7 +266,7 @@
 
     calculateBtn.addEventListener('click', calculateTotal);
 
-    function calculateTotal() {
+function calculateTotal() {
     let subtotal = 0;
     let itemsOrdered = [];
 
@@ -276,32 +276,35 @@
             const itemPrice = parseFloat(checkbox.value);
             const quantity = parseInt(quantities[index].value);
             subtotal += itemPrice * quantity;
-            
+
             // Add item details to the itemsOrdered array
             itemsOrdered.push({ name: itemName, quantity: quantity, price: itemPrice });
         }
     });
 
-        const commission = subtotal * 0.1;
-        let selectedDiscount = 0;
-        for (let i = 0; i < discountOptions.length; i++) {
-            if (discountOptions[i].checked) {
-                selectedDiscount = parseFloat(discountOptions[i].value);
-                break;
-            }
+    let selectedDiscount = 0;
+    for (let i = 0; i < discountOptions.length; i++) {
+        if (discountOptions[i].checked) {
+            selectedDiscount = parseFloat(discountOptions[i].value);
+            break;
         }
+    }
 
-        const discountPercentage = selectedDiscount / 100;
-        const discountAmount = subtotal * discountPercentage;
+    const discountPercentage = selectedDiscount / 100;
+    const discountAmount = subtotal * discountPercentage;
 
-        const total = subtotal - discountAmount;
+    // Calculate the commission after applying the discount
+    const discountedSubtotal = subtotal - discountAmount;
+    const commission = discountedSubtotal * 0.1;
 
-        subtotalDisplay.textContent = subtotal.toFixed(2);
-        commissionDisplay.textContent = commission.toFixed(2);
-        discountAmountDisplay.textContent = discountAmount.toFixed(2);
-        totalDisplay.textContent = total.toFixed(2);
+    const total = discountedSubtotal - discountAmount;
 
-        return { itemsOrdered, subtotal, selectedDiscount, commission, discountAmount, total };
+    subtotalDisplay.textContent = discountedSubtotal.toFixed(2);
+    commissionDisplay.textContent = commission.toFixed(2);
+    discountAmountDisplay.textContent = discountAmount.toFixed(2);
+    totalDisplay.textContent = total.toFixed(2);
+
+    return { itemsOrdered, discountedSubtotal, selectedDiscount, commission, discountAmount, total };
 }
 
     function resetMenu() {
