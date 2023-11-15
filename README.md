@@ -90,19 +90,20 @@
 
   // Prepare data for Discord webhook
   const discordData = {
-    username: "Menu Order Bot",
-    content: `New order submitted by ${employeeName}`,
-    embeds: [{
-      title: "Order Details",
-      fields: [
-        { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
-        { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
-        { name: "Discount Applied", value: `${discount}%`, inline: true },
-        { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
-      ],
-      color: 0x00ff00 // You can customize the color
-    }]
-  };
+  username: "Menu Order Bot",
+  content: `New order submitted by ${employeeName}`,
+  embeds: [{
+    title: "Order Details",
+    fields: [
+      { name: "Employee Name", value: employeeName, inline: true },
+      { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
+      { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
+      { name: "Discount Applied", value: `${discount}%`, inline: true },
+      { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
+    ],
+    color: 0x00ff00 // You can customize the color
+  }]
+};
 
   // Form Submission Logic for Spreadsheet
   $.ajax({
