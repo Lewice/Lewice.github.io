@@ -59,32 +59,86 @@
 }
 
     function SubForm() {
-      // Check if the employee name is provided
-      const employeeName = $("#employeeName").val();
-      if (employeeName.trim() === "") {
-        alert("Employee Name is required!");
-        return;
-      }
+  // Check if the employee name is provided
+  const employeeName = $("#employeeName").val();
+  if (employeeName.trim() === "") {
+    alert("Employee Name is required!");
+    return;
+  }
 
-      // Form Submission Logic
-      $.ajax({
-        url: "https://api.apispreadsheets.com/data/bviQcW5QzAlYop7f/",
-        type: "post",
-        data: {
-          "Employee Name": employeeName,
-          "Total": $("#total").text(),
-          "Commission": $("#commission").text()
-        },
-        success: function () {
-          alert("Form Data Submitted :)");
-          // Reset the form after submission
-          resetForm();
-        },
-        error: function () {
-          alert("There was an error :(");
-        }
+  // Get selected menu items and quantities
+  const orderedItems = [];
+  const menuItems = document.querySelectorAll('.menu-item:checked');
+  menuItems.forEach(item => {
+    const itemName = item.parentNode.textContent.trim();
+    const price = parseFloat(item.dataset.price);
+    const quantity = parseInt(item.nextElementSibling.value);
+
+    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
+      orderedItems.push({
+        name: itemName,
+        price: price,
+        quantity: quantity
       });
     }
+  });
+
+  // Calculate total and commission
+  const total = parseFloat($("#total").text());
+  const commission = parseFloat($("#commission").text());
+  const discount = parseFloat($("#discount").val());
+
+  // Prepare data for Discord webhook
+  const discordData = {
+    username: "Menu Order Bot",
+    content: `New order submitted by ${employeeName}`,
+    embeds: [{
+      title: "Order Details",
+      fields: [
+        { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
+        { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
+        { name: "Discount Applied", value: `${discount}%`, inline: true },
+        { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
+      ],
+      color: 0x00ff00 // You can customize the color
+    }]
+  };
+
+  // Form Submission Logic for Spreadsheet
+  $.ajax({
+    url: "https://api.apispreadsheets.com/data/bviQcW5QzAlYop7f/",
+    type: "post",
+    data: {
+      "Employee Name": employeeName,
+      "Total": total.toFixed(2),
+      "Commission": commission.toFixed(2),
+      "Items Ordered": JSON.stringify(orderedItems),
+      "Discount Applied": discount
+    },
+    success: function () {
+      alert("Form Data Submitted to Spreadsheet and Discord :)");
+      // Reset the form after submission
+      resetForm();
+    },
+    error: function () {
+      alert("There was an error :(");
+    }
+  });
+
+  // Form Submission Logic for Discord webhook
+  $.ajax({
+    url: "https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
+    type: "post",
+    contentType: "application/json",
+    data: JSON.stringify(discordData),
+    success: function () {
+      // Do nothing specific for Discord success
+    },
+    error: function () {
+      console.error("Error sending data to Discord :(");
+    }
+  });
+}
 
     function resetForm() {
       // Reset checkboxes and quantity inputs
