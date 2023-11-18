@@ -28,7 +28,7 @@
       margin-top: 10px;
     }
 	body {
-	background-color: white;
+	background-color: grey;
 	}
   </style>
   <script>
