@@ -6,7 +6,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
   <style>
     body, h2, form, label, p, button, select, input {
-      font-size: 8;
+      font-size: 10;
       margin-right: 10px; /* Add a margin for spacing */
     }
 
@@ -28,7 +28,7 @@
       margin-top: 10px;
     }
 	body {
-	background-color: #963264;
+	background-color: white;
 	}
   </style>
   <script>
