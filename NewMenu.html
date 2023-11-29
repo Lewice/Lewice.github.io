@@ -78,11 +78,7 @@
     const quantity = parseInt(item.nextElementSibling.value);
 
     if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-      orderedItems.push({
-        name: itemName,
-        price: price,
-        quantity: quantity
-      });
+      orderedItems.push(`${quantity}x ${itemName} - $${(price * quantity).toFixed(2)}`);
     }
   });
 
@@ -90,7 +86,7 @@
   const formData = {
     "Employee Name": employeeName,
     "Total": total.toFixed(2),
-    "Items Ordered": JSON.stringify(orderedItems),
+    "Items Ordered": orderedItems.join('\n'), // Format items as a string
     "Discount Applied": parseFloat($("#discount").val())
   };
 
@@ -123,7 +119,7 @@
         { name: "Employee Name", value: employeeName, inline: true },
         { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
         { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
-        { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
+        { name: "Items Ordered", value: orderedItems.join('\n') }
       ],
       color: 0x00ff00 // You can customize the color
     }]
