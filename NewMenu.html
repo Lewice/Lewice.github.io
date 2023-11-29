@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Send to Discord Webhook</title>
-    <style>
-        body {
-            background-color: pink;
-            text-align: center; /* Center-align text content */
-        }
-
-        #message-form {
-            margin: 0 auto; /* Center-align the form horizontally */
-            width: 50%; /* Adjust the width as needed */
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;<html lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,7 +52,7 @@
   });
 
   // Change commission rate from 5% to 10%
-  const commission = total * 0;
+  const commission = total * 0.10;
 
   document.getElementById('total').innerText = total.toFixed(2);
   document.getElementById('commission').innerText = commission.toFixed(2);
@@ -141,7 +126,7 @@
 
   // Prepare data for Discord webhook
   const discordData = {
-    username: "UWU produce Reimbursement ",
+    username: "Menu Order Bot",
     content: `New order submitted by ${employeeName}`,
     embeds: [{
       title: "Order Details",
@@ -158,7 +143,7 @@
 
   // Form Submission Logic for Discord webhook
   $.ajax({
-    url: "https://discord.com/api/webhooks/1179423007152816228/GgGgjKP4wjou6_eNjwVTSHxRUr40wYOv4WFHacOegrZYUtXtJnhYIinAHYWkc5iUt2vR",
+    url: "https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
     type: "post",
     contentType: "application/json",
     data: JSON.stringify(discordData),
@@ -187,39 +172,34 @@
 <body>
 
   <h2>Uwu Menu</h2>
+<a href="New_Menu.html">About this site</a>
 
   <form id="menuForm">
-  <h3>Produce</h3>
 
-      <input type="checkbox" class="menu-item" data-price="10"> orange - $10
+	<h3>Produce</h3>
+    <label>
+      <input type="checkbox" class="menu-item" data-price="10"> Oranges - $10
       <input type="number" class="quantity" value="1" min="1">
     </label>
-        <label>
-      <input type="checkbox" class="menu-item" data-price="4"> veggies(No peas or potatoes ) - $4
+    <label>
+      <input type="checkbox" class="menu-item" data-price="4"> Veggies (no peas or potatoes) - $4
       <input type="number" class="quantity" value="1" min="1">
     </label>
-<label>
-        <label>
+    <label>
       <input type="checkbox" class="menu-item" data-price="8"> Beef - $8
       <input type="number" class="quantity" value="1" min="1">
     </label>
-            <label>
-      <input type="checkbox" class="menu-item" data-price="15"> regular meat - $15
+	<label>
+      <input type="checkbox" class="menu-item" data-price="15"> Regular Meat - $15
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 
-	
-	
-	
-	
-	
 	<div style="margin-bottom: 30px;"></div>
 	
 	<label for="discount">Select Discount:</label>
     <select id="discount" onchange="calculateTotals()">
-          <option value="0">No Discount</option>
-
+      <option value="0">No Discount</option>
     </select>
 	
 	<div style="margin-bottom: 30px;"></div>
@@ -242,62 +222,7 @@
     <button type="button" onclick="SubForm()">Submit</button>
     <button type="button" onclick="resetForm()">Reset</button>
   </form>
-
-</body>
-</html>
-
-        }
-
-        /* Additional styles for labels and inputs can be added here */
-    </style>
-</head>
-<body>
-    <h1>Employee of the month Submission form</h1>
-    <form id="message-form">
-        <label for="message">Message:</label>
-        <input type="text" id="message" name="message"><br><br>
-        <label for="image">Image URL:</label>
-        <input type="text" id="image" name="image"><br><br>
-        <button type="button" onclick="sendMessage()">Send</button>
-    </form>
-
-    <script>
-        function sendMessage() {
-            const webhookUrl = 'https://discord.com/api/webhooks/1155166928663490642/DgX1DW-dW6YGYDVelbcyO7BvKxOcq07_0C68RKb3QtXl8lmpiCAqtiF1hwQ__8wS_tYE';
-
-            const message = document.getElementById('message').value;
-            const image = document.getElementById('image').value;
-
-            const data = {
-                content: message,
-                embeds: [
-                    {
-                        image: {
-                            url: image
-                        }
-                    }
-                ]
-            };
-
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Message sent successfully!');
-                } else {
-                    alert('Error sending message.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred.');
-            });
-        }
-    </script>
+	<div style="margin-bottom: 90px;"></div>
+    <h2>hello</h2>
 </body>
 </html>
