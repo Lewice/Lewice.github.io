@@ -172,6 +172,7 @@
 <body>
 
   <h2>Uwu Menu</h2>
+<a href="ProduceCalculator.html">About this site</a>
 
   <form id="menuForm">
   <h3>Specials</h3>
