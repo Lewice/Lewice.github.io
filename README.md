@@ -88,6 +88,33 @@
   const commission = parseFloat($("#commission").text());
   const discount = parseFloat($("#discount").val());
 
+  // Prepare data for API submission
+  const formData = {
+    "Employee Name": employeeName,
+    "Total": total.toFixed(2),
+    "Commission": commission.toFixed(2),
+    "Items Ordered": JSON.stringify(orderedItems),
+    "Discount Applied": discount
+  };
+
+  // Form Submission Logic for Spreadsheet
+  $.ajax({
+    url: "https://api.apispreadsheets.com/data/wy0vT9JJYGL6a8IZ/",
+    type: "post",
+    data: formData,
+    headers: {
+      accessKey: "c9d38abe3a9ed79cd6f8d878d8986f6f",
+      secretKey: "fb1fe402814e22e7a92cb48ce0937cb0",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    success: function () {
+      alert("Form Data Submitted to Spreadsheet and Discord :)");
+      resetForm();
+    },
+    error: function () {
+      alert("There was an error :(");
+    }
+  });
   // Prepare data for Discord webhook
   const discordData = {
   username: "Menu Order Bot",
