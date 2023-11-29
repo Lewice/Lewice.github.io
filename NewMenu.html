@@ -4,12 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu Calculator and Form Submission</title>
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-<style><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Calculator and Form Submission</title>
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <style>
   body, h2, form, label, p, button, select, input {
     font-size: 10;
@@ -123,251 +117,38 @@
     }
   });
 
-  // Prepare data for Discord webhook
-  const discordData = {
-    username: "Menu Order Bot",
-    content: `New order submitted by ${employeeName}`,
-    embeds: [{
-      title: "Order Details",
-      fields: [
-        { name: "Employee Name", value: employeeName, inline: true },
-        { name: "State ID", value: stateId, inline: true },
-        { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
-        { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
-        { name: "Items Ordered", value: orderedItems.join('\n') }
-      ],
-      color: 0x00ff00 // You can customize the color
-    }]
-  };
-
-  // Form Submission Logic for Discord webhook
-  $.ajax({
-    url: "https://discord.com/api/webhooks/1179423007152816228/GgGgjKP4wjou6_eNjwVTSHxRUr40wYOv4WFHacOegrZYUtXtJnhYIinAHYWkc5iUt2vR",
-    type: "post",
-    contentType: "application/json",
-    data: JSON.stringify(discordData),
-    success: function () {
-      // Do nothing specific for Discord success
-    },
-    error: function () {
-      console.error("Error sending data to Discord :(");
-    }
-  });
-}
-
-    function resetForm() {
-      // Reset checkboxes and quantity inputs
-      $('.menu-item').prop('checked', false);
-      $('.quantity').val(1);
-
-      // Reset totals
-      document.getElementById('total').innerText = '';
-      document.getElementById('commission').innerText = '';
-      // Reset discount dropdown to default
-      $("#discount").val("0");
-    }
-  </script>
-</head>
-<body>
-
-  <h2>Uwu Menu</h2>
-<a href="README.md">Order Calculator</a>
-
-  <form id="menuForm">
-
-	<h3>Produce</h3>
-    <label>
-      <input type="checkbox" class="menu-item" data-price="10"> Oranges - $10
-      <input type="number" class="quantity" value="1" min="1">
-    </label>
-    <label>
-      <input type="checkbox" class="menu-item" data-price="4"> Veggies (no peas or potatoes) - $4
-      <input type="number" class="quantity" value="1" min="1">
-    </label>
-    <label>
-      <input type="checkbox" class="menu-item" data-price="8"> Beef - $8
-      <input type="number" class="quantity" value="1" min="1">
-    </label>
-	<label>
-      <input type="checkbox" class="menu-item" data-price="15"> Regular Meat - $15
-      <input type="number" class="quantity" value="1" min="1">
-    </label>
-	
-
-	<div style="margin-bottom: 30px;"></div>
-
-	
-	<div style="margin-bottom: 30px;"></div>
-	
-
-
-    <label for="employeeName">Employee Name:</label>
-    <input type="text" id="employeeName" required>
-    
-    <label for="stateId">State ID:</label>
-<input type="text" id="stateId">
-	
-	<div style="margin-bottom: 30px;"></div>
-	
-	
-
-    <p>Total: $<span id="total"></span></p>
-
-	
-	<div style="margin-bottom: 30px;"></div>
-
-    <button type="button" onclick="calculateTotals()">Calculate</button>
-    <button type="button" onclick="SubForm()">Submit</button>
-    <button type="button" onclick="resetForm()">Reset</button>
-  </form>
-	<div style="margin-bottom: 90px;"></div>
-    <h2>hello</h2>
-</body>
-</html>
-
-  body, h2, form, label, p, button, select, input {
-    font-size: 10;
-    margin-right: auto; /* Set margin-right and margin-left to auto for centering */
-    margin-left: auto;
-  }
-
-  label {
-    display: block; /* Change display to block for centered labels */
-    margin-bottom: 5px;
-  }
-
-  body, h2, form {
-    text-align: center;
-  }
-
-  p {
-    text-align: center;
-    margin: 0;
-  }
-
-  button {
-    margin-top: 10px;
-  }
-
-  body {
-    background-color: grey;
-  }
-</style>
-  <script>
-    function calculateTotals() {
-  let total = 0;
-
-  // Calculate total from selected items
-  const menuItems = document.querySelectorAll('.menu-item:checked');
-  menuItems.forEach(item => {
-    const price = parseFloat(item.dataset.price);
-    const quantity = parseInt(item.nextElementSibling.value);
-
-    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-      total += price * quantity;
-    }
-  });
-
-  document.getElementById('total').innerText = total.toFixed(2);
-}
-
-    function SubForm() {
-  // Check if the employee name is provided
-  const employeeName = $("#employeeName").val();
-  if (employeeName.trim() === "") {
-    alert("Employee Name is required!");
-    return;
-  }
-
-  // Check if the state ID is provided
-  const stateId = $("#stateId").val();
-  if (stateId.trim() === "") {
-    alert("State ID is required!");
-    return;
-  }
-
-  // Get the total from the UI
-  const totalText = $("#total").text();
-  const total = parseFloat(totalText);
-
-  // Check if the total is a valid number
-  if (isNaN(total)) {
-    alert("Total is not available. Please calculate totals first.");
-    return;
-  }
-
-  // Get selected menu items and quantities
-  const orderedItems = [];
-  const menuItems = document.querySelectorAll('.menu-item:checked');
-  menuItems.forEach(item => {
-    const itemName = item.parentNode.textContent.trim();
-    const price = parseFloat(item.dataset.price);
-    const quantity = parseInt(item.nextElementSibling.value);
-
-    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-      orderedItems.push(`${quantity}x ${itemName} - $${(price * quantity).toFixed(2)}`);
-    }
-  });
-
-  // Prepare data for API submission
-  const formData = {
-    "Employee Name": employeeName,
-    "State ID": stateId,
-    "Total": total.toFixed(2),
-    "Items Ordered": orderedItems.join('\n'), // Format items as a string
-    "Discount Applied": parseFloat($("#discount").val())
-  };
-
-  // Form Submission Logic for Spreadsheet
-  $.ajax({
-    url: "https://api.apispreadsheets.com/data/gjE95e1r45vHIC0a/",
-    type: "post",
-    data: formData,
-    headers: {
-      accessKey: "8ee19fea801e5401d2c044cfc4a95d0d",
-      secretKey: "63dc5430bade4295f57463bad656f432",
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    success: function () {
-      alert("Form Data Submitted to Spreadsheet and Discord :)");
-      resetForm();
-    },
-    error: function () {
-      alert("There was an error :(");
-    }
-  });
 
   // Prepare data for Discord webhook
-  const discordData = {
-    username: "Menu Order Bot",
-    content: `New order submitted by ${employeeName}`,
-    embeds: [{
-      title: "Order Details",
-      fields: [
-        { name: "Employee Name", value: employeeName, inline: true },
-        { name: "State ID", value: stateId, inline: true },
-        { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
-        { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
-        { name: "Items Ordered", value: orderedItems.join('\n') }
-      ],
-      color: 0x00ff00 // You can customize the color
-    }]
-  };
+const discordData = {
+  username: "Menu Order Bot",
+  content: `New order submitted by ${employeeName}`,
+  embeds: [{
+    title: "Order Details",
+    fields: [
+      { name: "Employee Name", value: employeeName, inline: true },
+      { name: "State ID", value: stateId, inline: true },
+      { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
+      // Remove the line below to exclude Discount Applied
+      //{ name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
+      { name: "Items Ordered", value: orderedItems.join('\n') }
+    ],
+    color: 0x00ff00 // You can customize the color
+  }]
+};
 
-  // Form Submission Logic for Discord webhook
-  $.ajax({
-    url: "https://discord.com/api/webhooks/1179423007152816228/GgGgjKP4wjou6_eNjwVTSHxRUr40wYOv4WFHacOegrZYUtXtJnhYIinAHYWkc5iUt2vR",
-    type: "post",
-    contentType: "application/json",
-    data: JSON.stringify(discordData),
-    success: function () {
-      // Do nothing specific for Discord success
-    },
-    error: function () {
-      console.error("Error sending data to Discord :(");
-    }
-  });
-}
+// Form Submission Logic for Discord webhook
+$.ajax({
+  url: "https://discord.com/api/webhooks/1179423007152816228/GgGgjKP4wjou6_eNjwVTSHxRUr40wYOv4WFHacOegrZYUtXtJnhYIinAHYWkc5iUt2vR", // Updated webhook link
+  type: "post",
+  contentType: "application/json",
+  data: JSON.stringify(discordData),
+  success: function () {
+    // Do nothing specific for Discord success
+  },
+  error: function () {
+    console.error("Error sending data to Discord :(");
+  }
+});
 
     function resetForm() {
       // Reset checkboxes and quantity inputs
