@@ -4,33 +4,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu Calculator and Form Submission</title>
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-  <style>
-    body, h2, form, label, p, button, select, input {
-      font-size: 10;
-      margin-right: 10px; /* Add a margin for spacing */
-    }
+<style>
+  body, h2, form, label, p, button, select, input {
+    font-size: 10;
+    margin-right: auto; /* Set margin-right and margin-left to auto for centering */
+    margin-left: auto;
+  }
 
-    label {
-      display: inline-block; /* Display as inline-block to make items appear beside each other */
-      margin-bottom: 5px;
-    }
+  label {
+    display: block; /* Change display to block for centered labels */
+    margin-bottom: 5px;
+  }
 
-    body, h2, form {
-      text-align: center;
-    }
+  body, h2, form {
+    text-align: center;
+  }
 
-    p {
-      text-align: center;
-      margin: 0; /* Remove default margin for <p> */
-    }
+  p {
+    text-align: center;
+    margin: 0;
+  }
 
-    button {
-      margin-top: 10px;
-    }
-	body {
-	background-color: grey;
-	}
-  </style>
+  button {
+    margin-top: 10px;
+  }
+
+  body {
+    background-color: grey;
+  }
+</style>
   <script>
     function calculateTotals() {
   let total = 0;
