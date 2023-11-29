@@ -44,7 +44,7 @@
     const quantity = parseInt(item.nextElementSibling.value);
 
     if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-      total += price * quantity * (1 - ($("#discount").val() / 100));
+      total += price * quantity;
     }
   });
 
@@ -86,14 +86,10 @@
     }
   });
 
-  // Calculate total and commission
-  const commission = total * 0.10;
-
   // Prepare data for API submission
   const formData = {
     "Employee Name": employeeName,
     "Total": total.toFixed(2),
-    "Commission": commission.toFixed(2),
     "Items Ordered": JSON.stringify(orderedItems),
     "Discount Applied": parseFloat($("#discount").val())
   };
@@ -126,7 +122,6 @@
       fields: [
         { name: "Employee Name", value: employeeName, inline: true },
         { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
-        { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
         { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
         { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
       ],
@@ -189,11 +184,7 @@
 	
 
 	<div style="margin-bottom: 30px;"></div>
-	
-	<label for="discount">Select Discount:</label>
-    <select id="discount" onchange="calculateTotals()">
-      <option value="0">No Discount</option>
-    </select>
+
 	
 	<div style="margin-bottom: 30px;"></div>
 	
