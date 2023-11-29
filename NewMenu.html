@@ -89,28 +89,28 @@
     }
   });
 
-  // Prepare data for API submission
-  const formData = {
+  // Prepare data for API submission to Google Sheets
+  const formDataForSheets = {
     "Employee Name": employeeName,
     "State ID": stateId,
     "Total": total.toFixed(2),
     "Items Ordered": orderedItems.join('\n'),
     "Discount Applied": parseFloat($("#discount").val()),
-    "Time": new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) // Send time in EST
+    "Time": new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) // Send time in EST for Google Sheets
   };
 
   // Form Submission Logic for Spreadsheet
   $.ajax({
     url: "https://api.apispreadsheets.com/data/gjE95e1r45vHIC0a/",
     type: "post",
-    data: formData,
+    data: formDataForSheets,
     headers: {
       accessKey: "8ee19fea801e5401d2c044cfc4a95d0d",
       secretKey: "63dc5430bade4295f57463bad656f432",
       "Content-Type": "application/x-www-form-urlencoded",
     },
     success: function () {
-      alert("Form Data Submitted to Spreadsheet and Discord :)");
+      alert("Form Data Submitted to Spreadsheet :)");
       resetForm();
     },
     error: function () {
@@ -129,7 +129,7 @@
         { name: "State ID", value: stateId, inline: true },
         { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
         { name: "Items Ordered", value: orderedItems.join('\n') },
-        { name: "Time", value: formData["Time"], inline: true } // Include time in Discord message
+        { name: "Time", value: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }), inline: true } // Include time in Discord message
       ],
       color: 0x00ff00 // You can customize the color
     }]
