@@ -59,6 +59,13 @@
     return;
   }
 
+  // Check if the state ID is provided
+  const stateId = $("#stateId").val();
+  if (stateId.trim() === "") {
+    alert("State ID is required!");
+    return;
+  }
+
   // Get the total from the UI
   const totalText = $("#total").text();
   const total = parseFloat(totalText);
@@ -85,6 +92,7 @@
   // Prepare data for API submission
   const formData = {
     "Employee Name": employeeName,
+    "State ID": stateId,
     "Total": total.toFixed(2),
     "Items Ordered": orderedItems.join('\n'), // Format items as a string
     "Discount Applied": parseFloat($("#discount").val())
@@ -117,6 +125,7 @@
       title: "Order Details",
       fields: [
         { name: "Employee Name", value: employeeName, inline: true },
+        { name: "State ID", value: stateId, inline: true },
         { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
         { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
         { name: "Items Ordered", value: orderedItems.join('\n') }
@@ -188,6 +197,9 @@
 
     <label for="employeeName">Employee Name:</label>
     <input type="text" id="employeeName" required>
+    
+    <label for="stateId">State ID:</label>
+<input type="text" id="stateId">
 	
 	<div style="margin-bottom: 30px;"></div>
 	
@@ -203,6 +215,6 @@
     <button type="button" onclick="resetForm()">Reset</button>
   </form>
 	<div style="margin-bottom: 90px;"></div>
-
+    <h2>hello</h2>
 </body>
 </html>
