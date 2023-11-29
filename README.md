@@ -132,27 +132,6 @@
   }]
 };
 
-  // Form Submission Logic for Spreadsheet
-  $.ajax({
-    url: "https://api.apispreadsheets.com/data/bviQcW5QzAlYop7f/",
-    type: "post",
-    data: {
-      "Employee Name": employeeName,
-      "Total": total.toFixed(2),
-      "Commission": commission.toFixed(2),
-      "Items Ordered": JSON.stringify(orderedItems),
-      "Discount Applied": discount
-    },
-    success: function () {
-      alert("Form Data Submitted to Spreadsheet and Discord :)");
-      // Reset the form after submission
-      resetForm();
-    },
-    error: function () {
-      alert("There was an error :(");
-    }
-  });
-
   // Form Submission Logic for Discord webhook
   $.ajax({
     url: "https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
