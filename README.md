@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Calculator and Form Submission</title>
+  <title>Uwu Menu calculator</title>
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
   <style>
     body, h2, form, label, p, button, select, input {
@@ -35,11 +35,18 @@
     function calculateTotals() {
   let total = 0;
 
+  // Reset totals and ingredients list
+  document.getElementById('total').innerText = '';
+  document.getElementById('commission').innerText = '';
+  document.getElementById('ingredientsList').innerHTML = '';
+
   // Calculate total from selected items
   const menuItems = document.querySelectorAll('.menu-item:checked');
   menuItems.forEach(item => {
+    const itemName = item.parentNode.textContent.trim();
     const price = parseFloat(item.dataset.price);
     const quantity = parseInt(item.nextElementSibling.value);
+    const ingredients = item.dataset.ingredients.split(',');
 
     if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
       // Exclude "Mystery Box" from discounts
@@ -48,6 +55,12 @@
       } else {
         total += price * quantity * (1 - ($("#discount").val() / 100));
       }
+
+      // Display ingredients for the selected item
+      const ingredientsList = document.getElementById('ingredientsList');
+      const listItem = document.createElement('li');
+      listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${ingredients.join(', ')}`;
+      ingredientsList.appendChild(listItem);
     }
   });
 
@@ -157,16 +170,20 @@
 }
 
     function resetForm() {
-      // Reset checkboxes and quantity inputs
-      $('.menu-item').prop('checked', false);
-      $('.quantity').val(1);
+  // Reset checkboxes and quantity inputs
+  $('.menu-item').prop('checked', false);
+  $('.quantity').val(1);
 
-      // Reset totals
-      document.getElementById('total').innerText = '';
-      document.getElementById('commission').innerText = '';
-      // Reset discount dropdown to default
-      $("#discount").val("0");
-    }
+  // Reset totals
+  document.getElementById('total').innerText = '';
+  document.getElementById('commission').innerText = '';
+
+  // Clear ingredients list
+  document.getElementById('ingredientsList').innerHTML = '';
+
+  // Reset discount dropdown to default
+  $("#discount").val("0");
+}
   </script>
 </head>
 <body>
@@ -177,153 +194,153 @@
   <form id="menuForm">
   <h3>Specials</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="1500"> Uwu Daddy Special - $1500
+      <input type="checkbox" class="menu-item" data-price="1500" data-ingredients="5 Cattacinos/iced coffee, 5 Choccy Pancakes, 5 Homemade Cat Cookies"> Uwu Daddy Special - $1500
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="1500"> Uwu Mommy Special - $1500
+      <input type="checkbox" class="menu-item" data-price="1500" data-ingredients="5 Bobba Tea's, 5 Extra Beefy Sammies, 5 Donut/Cupcakes"> Uwu Mommy Special - $1500
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="250"> Basic Bitch Special - $250
+      <input type="checkbox" class="menu-item" data-price="250" data-ingredients="Turkey Sandwhich, Pumpkin Spice Latte, Apple Crumble"> Basic Bitch Special - $250
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Specials</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="300"> Colin's Choice - $300
+      <input type="checkbox" class="menu-item" data-price="300" data-ingredients="Choccy Pancakes, Pumpkin Spice Latte, Cat Cookie/Donut"> Colin's Choice - $300
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="300"> Judy's Choice - $300
+      <input type="checkbox" class="menu-item" data-price="300" data-ingredients="Salad/Turkey Sandwhich, Matcha Latte, Apple Crumble"> Judy's Choice - $300
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="300"> Velma's Choice - $300
+      <input type="checkbox" class="menu-item" data-price="300" data-ingredients="BLT/Turkey Sandwhich, Bobba Tea, Cat Cookie/Donut"> Velma's Choice - $300
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="300"> Dave's Choice - $300
+      <input type="checkbox" class="menu-item" data-price="300" data-ingredients="Salad/Turkey Sandwhich, Matcha Latte, Cat Cookie/Donut"> Dave's Choice - $300
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Entree</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="150"> Salad - $150
+      <input type="checkbox" class="menu-item" data-price="150" data-ingredients="2x Lettuce,3x Cucumber, 5x Peas, 3x Tomatoes"> Salad - $150
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="200"> Fruit Explosion - $200
+      <input type="checkbox" class="menu-item" data-price="200" data-ingredients="1x Plastic Cup, 1x Milk Canister,8x Bag Of Sugar, 10x Oranges"> Fruit Explosion - $200
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="150"> Sandwhiches - $150
+      <input type="checkbox" class="menu-item" data-price="150" data-ingredients="1x Bread, 1x Meat device"> Sandwhiches - $150
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="175"> Choccy Pancakes - $175
+      <input type="checkbox" class="menu-item" data-price="175" data-ingredients="3x Milk Canister, 3x Bag Of Sugar"> Choccy Pancakes - $175
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Desserts</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="125"> Homemade Cat Cookies - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Dough, 2x Bag Of Sugar, 1x Icing"> Homemade Cat Cookies - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="125"> Apple Crumble - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="3x Dough,6x Bag Of Sugar"> Apple Crumble - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="125"> Cat Donut - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="2x Dough, 2x Bag of Sugar, 2x Icing"> Cat Donut - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="125"> Cat Cupcake - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="2x Dough ,2x Bag Of Sugar , 2x Icing"> Cat Cupcake - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Delivery</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="250"> City Delivery - $250
+      <input type="checkbox" class="menu-item" data-price="250" data-ingredients="1x City Delivery"> City Delivery - $250
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="500"> Sandy Delivery - $500
+      <input type="checkbox" class="menu-item" data-price="500" data-ingredients="1x Sandy Delivery"> Sandy Delivery - $500
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="750"> Poleto Delivery - $750
+      <input type="checkbox" class="menu-item" data-price="750" data-ingredients="1x Poleto Delivery"> Poleto Delivery - $750
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Misc Items</h3>
     <label>
-      <input type="checkbox" class="menu-item exclude-discount" data-price="5000"> Mystery Box - $5000
+      <input type="checkbox" class="menu-item exclude-discount" data-price="5000" data-ingredients="1x Mystery Box"> Mystery Box - $5000
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="2500"> Box's - $2500
+      <input type="checkbox" class="menu-item" data-price="2500" data-ingredients="1x Box"> Box's - $2500
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Cattacino Specials</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="1600"> 10 for 1600$ 
+      <input type="checkbox" class="menu-item" data-price="1600" data-ingredients="10x Cattacinos"> 10 for 1600$ 
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="2500"> 20 for 2500$
+      <input type="checkbox" class="menu-item" data-price="2500" data-ingredients="20x Cattacinos"> 20 for 2500$
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="3500"> 30 for 3500$
+      <input type="checkbox" class="menu-item" data-price="3500" data-ingredients="30x Cattacinos"> 30 for 3500$
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="4500"> 40 for 4500$
+      <input type="checkbox" class="menu-item" data-price="4500" data-ingredients="40x Cattacinos"> 40 for 4500$
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="5500"> 50 for 5500$
+      <input type="checkbox" class="menu-item" data-price="5500" data-ingredients="50x Cattacinos"> 50 for 5500$
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="9000"> 100 for 9000$
+      <input type="checkbox" class="menu-item" data-price="9000" data-ingredients="100x Cattacinos"> 100 for 9000$
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
 	<h3>Beverages</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="125"> Frozen Yoghurt - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Plastic Cup, 1x Milk Canister, 1x Bag Of Sugar"> Frozen Yoghurt - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="200"> Fresh Lemonade - $200
+      <input type="checkbox" class="menu-item" data-price="200" data-ingredients="5x Plastic Cup, 15x Orange "> Fresh Lemonade - $200
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="125"> Iced Coffee - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Plastic Cup, 1x Coffee Beans, 1x Milk Canister"> Iced Coffee - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="125"> Matcha Latte - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Plastic Cup, 2x Tea Leaf, 1x Milk Canister"> Matcha Latte - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="125"> Pumpkin Spice Latte - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Platic Cup, 1x Coffee Beans, 1x Milk Canister"> Pumpkin Spice Latte - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="200"> Cat Tuccino - $200
+      <input type="checkbox" class="menu-item" data-price="200" data-ingredients="1x Plastic Cup, 3x Coffee Beans, 1x Milk Canister"> Cat Tuccino - $200
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	<label>
-      <input type="checkbox" class="menu-item" data-price="125"> Bobba Tea - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Plastic Cup, 2x Tea Leaf"> Bobba Tea - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
     <label>
-      <input type="checkbox" class="menu-item" data-price="125"> Green Tea - $125
+      <input type="checkbox" class="menu-item" data-price="125" data-ingredients="1x Plastic Cup, 4x Tea Leaf"> Green Tea - $125
       <input type="number" class="quantity" value="1" min="1">
     </label>
 	
@@ -356,6 +373,10 @@
 
     <p>Total: $<span id="total"></span></p>
     <p>Commission (10%): $<span id="commission"></span></p>
+	<div id="ingredients">
+	<h3>Ingredients Needed</h3>
+	<ul id="ingredientsList"></ul>
+	</div>
 	
 	<div style="margin-bottom: 30px;"></div>
 
