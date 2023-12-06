@@ -33,157 +33,179 @@
   </style>
   <script>
     function calculateTotals() {
-  let total = 0;
+      // Reset totals and ingredients list
+      document.getElementById('total').innerText = '';
+      document.getElementById('commission').innerText = '';
+      document.getElementById('ingredientsList').innerHTML = '';
 
-  // Reset totals and ingredients list
-  document.getElementById('total').innerText = '';
-  document.getElementById('commission').innerText = '';
-  document.getElementById('ingredientsList').innerHTML = '';
+      // Calculate total from selected items
+      let total = 0;
 
-  // Calculate total from selected items
-  const menuItems = document.querySelectorAll('.menu-item:checked');
-  menuItems.forEach(item => {
-    const itemName = item.parentNode.textContent.trim();
-    const price = parseFloat(item.dataset.price);
-    const quantity = parseInt(item.nextElementSibling.value);
-    const ingredients = item.dataset.ingredients.split(',');
+      const menuItems = document.querySelectorAll('.menu-item:checked');
+      menuItems.forEach(item => {
+        const itemName = item.parentNode.textContent.trim();
+        const price = parseFloat(item.dataset.price);
+        const quantity = parseInt(item.nextElementSibling.value);
+        const ingredients = item.dataset.ingredients.split(',');
 
-    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-      // Exclude "Mystery Box" from discounts
-      if (item.classList.contains('exclude-discount')) {
-        total += price * quantity;
-      } else {
-        total += price * quantity * (1 - ($("#discount").val() / 100));
-      }
+        if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
+          // Exclude "Mystery Box" from discounts
+          if (item.classList.contains('exclude-discount')) {
+            total += price * quantity;
+          } else {
+            total += price * quantity * (1 - ($("#discount").val() / 100));
+          }
 
-      // Display ingredients for the selected item
-      const ingredientsList = document.getElementById('ingredientsList');
-      const listItem = document.createElement('li');
-      listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${ingredients.join(', ')}`;
-      ingredientsList.appendChild(listItem);
+          // Display ingredients for the selected item
+          const ingredientsList = document.getElementById('ingredientsList');
+          const listItem = document.createElement('li');
+
+          // Update the ingredients for "Apple Crumble" based on quantity
+          if (itemName.includes('Apple Crumble')) {
+            let customIngredients;
+            if (quantity >= 1 && quantity <= 3) {
+              customIngredients = '3x Dough, 6x Bag Of Sugar';
+            } else if (quantity >= 4 && quantity <= 6) {
+              customIngredients = '6x Dough, 12x Bag Of Sugar';
+            } else if (quantity >= 7 && quantity <= 9) {
+              customIngredients = '9x Dough, 18x Bag Of Sugar';
+            } else if (quantity >= 10 && quantity <= 12) {
+              customIngredients = '12x Dough, 24x Bag Of Sugar';
+            }
+
+            if (customIngredients) {
+              listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${customIngredients}`;
+            } else {
+              listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${ingredients.join(', ')}`;
+            }
+          } else {
+            listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${ingredients.join(', ')}`;
+          }
+
+          ingredientsList.appendChild(listItem);
+        }
+      });
+
+      // Change commission rate from 5% to 10%
+      const commission = total * 0.10;
+
+      document.getElementById('total').innerText = total.toFixed(2);
+      document.getElementById('commission').innerText = commission.toFixed(2);
     }
-  });
-
-  // Change commission rate from 5% to 10%
-  const commission = total * 0.10;
-
-  document.getElementById('total').innerText = total.toFixed(2);
-  document.getElementById('commission').innerText = commission.toFixed(2);
-}
 
     function SubForm() {
-  // Check if the employee name is provided
-  const employeeName = $("#employeeName").val();
-  if (employeeName.trim() === "") {
-    alert("Employee Name is required!");
-    return;
-  }
+      // Check if the employee name is provided
+      const employeeName = $("#employeeName").val();
+      if (employeeName.trim() === "") {
+        alert("Employee Name is required!");
+        return;
+      }
 
-  // Get the total from the UI
-  const totalText = $("#total").text();
-  const total = parseFloat(totalText);
+      // Get the total from the UI
+      const totalText = $("#total").text();
+      const total = parseFloat(totalText);
 
-  // Check if the total is a valid number
-  if (isNaN(total)) {
-    alert("Total is not available. Please calculate totals first.");
-    return;
-  }
+      // Check if the total is a valid number
+      if (isNaN(total)) {
+        alert("Total is not available. Please calculate totals first.");
+        return;
+      }
 
-  // Get selected menu items and quantities
-  const orderedItems = [];
-  const menuItems = document.querySelectorAll('.menu-item:checked');
-  menuItems.forEach(item => {
-    const itemName = item.parentNode.textContent.trim();
-    const price = parseFloat(item.dataset.price);
-    const quantity = parseInt(item.nextElementSibling.value);
+      // Get selected menu items and quantities
+      const orderedItems = [];
+      const menuItems = document.querySelectorAll('.menu-item:checked');
+      menuItems.forEach(item => {
+        const itemName = item.parentNode.textContent.trim();
+        const price = parseFloat(item.dataset.price);
+        const quantity = parseInt(item.nextElementSibling.value);
 
-    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-      orderedItems.push({
-        name: itemName,
-        price: price,
-        quantity: quantity
+        if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
+          orderedItems.push({
+            name: itemName,
+            price: price,
+            quantity: quantity
+          });
+        }
+      });
+
+      // Calculate total and commission
+      const commission = total * 0.10;
+
+      // Prepare data for API submission
+      const formData = {
+        "Employee Name": employeeName,
+        "Total": total.toFixed(2),
+        "Commission": commission.toFixed(2),
+        "Items Ordered": JSON.stringify(orderedItems),
+        "Discount Applied": parseFloat($("#discount").val())
+      };
+
+      // Form Submission Logic for Spreadsheet
+      $.ajax({
+        url: "https://api.apispreadsheets.com/data/wy0vT9JJYGL6a8IZ/",
+        type: "post",
+        data: formData,
+        headers: {
+          accessKey: "c9d38abe3a9ed79cd6f8d878d8986f6f",
+          secretKey: "fb1fe402814e22e7a92cb48ce0937cb0",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        success: function () {
+          alert("Form Data Submitted to Spreadsheet and Discord :)");
+          resetForm();
+        },
+        error: function () {
+          alert("There was an error :(");
+        }
+      });
+
+      // Prepare data for Discord webhook
+      const discordData = {
+        username: "Menu Order Bot",
+        content: `New order submitted by ${employeeName}`,
+        embeds: [{
+          title: "Order Details",
+          fields: [
+            { name: "Employee Name", value: employeeName, inline: true },
+            { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
+            { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
+            { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
+            { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
+          ],
+          color: 0x00ff00 // You can customize the color
+        }]
+      };
+
+      // Form Submission Logic for Discord webhook
+      $.ajax({
+        url: "https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify(discordData),
+        success: function () {
+          // Do nothing specific for Discord success
+        },
+        error: function () {
+          console.error("Error sending data to Discord :(");
+        }
       });
     }
-  });
-
-  // Calculate total and commission
-  const commission = total * 0.10;
-
-  // Prepare data for API submission
-  const formData = {
-    "Employee Name": employeeName,
-    "Total": total.toFixed(2),
-    "Commission": commission.toFixed(2),
-    "Items Ordered": JSON.stringify(orderedItems),
-    "Discount Applied": parseFloat($("#discount").val())
-  };
-
-  // Form Submission Logic for Spreadsheet
-  $.ajax({
-    url: "https://api.apispreadsheets.com/data/wy0vT9JJYGL6a8IZ/",
-    type: "post",
-    data: formData,
-    headers: {
-      accessKey: "c9d38abe3a9ed79cd6f8d878d8986f6f",
-      secretKey: "fb1fe402814e22e7a92cb48ce0937cb0",
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    success: function () {
-      alert("Form Data Submitted to Spreadsheet and Discord :)");
-      resetForm();
-    },
-    error: function () {
-      alert("There was an error :(");
-    }
-  });
-
-  // Prepare data for Discord webhook
-  const discordData = {
-    username: "Menu Order Bot",
-    content: `New order submitted by ${employeeName}`,
-    embeds: [{
-      title: "Order Details",
-      fields: [
-        { name: "Employee Name", value: employeeName, inline: true },
-        { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
-        { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
-        { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
-        { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
-      ],
-      color: 0x00ff00 // You can customize the color
-    }]
-  };
-
-  // Form Submission Logic for Discord webhook
-  $.ajax({
-    url: "https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
-    type: "post",
-    contentType: "application/json",
-    data: JSON.stringify(discordData),
-    success: function () {
-      // Do nothing specific for Discord success
-    },
-    error: function () {
-      console.error("Error sending data to Discord :(");
-    }
-  });
-}
 
     function resetForm() {
-  // Reset checkboxes and quantity inputs
-  $('.menu-item').prop('checked', false);
-  $('.quantity').val(1);
+      // Reset checkboxes and quantity inputs
+      $('.menu-item').prop('checked', false);
+      $('.quantity').val(1);
 
-  // Reset totals
-  document.getElementById('total').innerText = '';
-  document.getElementById('commission').innerText = '';
+      // Reset totals
+      document.getElementById('total').innerText = '';
+      document.getElementById('commission').innerText = '';
 
-  // Clear ingredients list
-  document.getElementById('ingredientsList').innerHTML = '';
+      // Clear ingredients list
+      document.getElementById('ingredientsList').innerHTML = '';
 
-  // Reset discount dropdown to default
-  $("#discount").val("0");
-}
+      // Reset discount dropdown to default
+      $("#discount").val("0");
+    }
   </script>
 </head>
 <body>
