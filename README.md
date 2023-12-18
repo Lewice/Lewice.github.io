@@ -33,43 +33,44 @@
   </style>
   <script>
   function calculateTotals() {
-    // Reset totals and ingredients list
-    document.getElementById('total').innerText = '';
-    document.getElementById('commission').innerText = '';
-    document.getElementById('ingredientsList').innerHTML = '';
+  // Reset totals and ingredients list
+  document.getElementById('total').innerText = '';
+  document.getElementById('commission').innerText = '';
+  document.getElementById('ingredientsList').innerHTML = '';
 
-    // Calculate total from selected items
-    let total = 0;
+  // Calculate total from selected items
+  let total = 0;
 
-    const menuItems = document.querySelectorAll('.menu-item:checked');
-    menuItems.forEach(item => {
-      const itemName = item.parentNode.textContent.trim();
-      const price = parseFloat(item.dataset.price);
-      const quantity = parseInt(item.nextElementSibling.value);
-      const ingredients = calculateIngredients(itemName, quantity);
+  const menuItems = document.querySelectorAll('.menu-item:checked');
+  menuItems.forEach(item => {
+    const itemName = item.parentNode.textContent.trim();
+    const price = parseFloat(item.dataset.price);
+    const quantity = parseInt(item.nextElementSibling.value);
+    const ingredients = calculateIngredients(itemName, quantity);
 
-      if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-        // Exclude "Mystery Box" from discounts
-        if (item.classList.contains('exclude-discount')) {
-          total += price * quantity;
-        } else {
-          total += price * quantity * (1 - ($("#discount").val() / 100));
-        }
-
-        // Display ingredients for the selected item
-        const ingredientsList = document.getElementById('ingredientsList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${ingredients.join(', ')}`;
-        ingredientsList.appendChild(listItem);
+    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
+      // Exclude "Mystery Box" from discounts
+      if (item.classList.contains('exclude-discount')) {
+        total += price * quantity;
+      } else {
+        total += price * quantity * (1 - ($("#discount").val() / 100));
       }
-    });
 
-    // Change commission rate from 5% to 10%
-    const commission = total * 0.10;
+      // Display ingredients for the selected item
+      const ingredientsList = document.getElementById('ingredientsList');
+      const listItem = document.createElement('li');
+      listItem.textContent = `${quantity}x ${itemName} - Ingredients: ${ingredients.join(', ')}`;
+      ingredientsList.appendChild(listItem);
+    }
+  });
 
-    document.getElementById('total').innerText = total.toFixed(2);
-    document.getElementById('commission').innerText = commission.toFixed(2);
-  }
+  // Change commission rate based on the number of employees
+  const numEmployees = parseInt($("#numEmployees").val());
+  const commission = total * (0.10 / numEmployees);
+
+  document.getElementById('total').innerText = total.toFixed(2);
+  document.getElementById('commission').innerText = commission.toFixed(2);
+}
 
   function calculateIngredients(itemName, quantity) {
     if (itemName.includes('Choccy Pancakes')) {
@@ -229,102 +230,107 @@
   }
 
     function SubForm() {
-      // Check if the employee name is provided
-      const employeeName = $("#employeeName").val();
-      if (employeeName.trim() === "") {
-        alert("Employee Name is required!");
-        return;
-      }
+  // Check if the employee name is provided
+  const employeeName = $("#employeeName").val();
+  if (employeeName.trim() === "") {
+    alert("Employee Name is required!");
+    return;
+  }
 
-      // Get the total from the UI
-      const totalText = $("#total").text();
-      const total = parseFloat(totalText);
+  // Get the total from the UI
+  const totalText = $("#total").text();
+  const total = parseFloat(totalText);
 
-      // Check if the total is a valid number
-      if (isNaN(total)) {
-        alert("Total is not available. Please calculate totals first.");
-        return;
-      }
+  // Check if the total is a valid number
+  if (isNaN(total)) {
+    alert("Total is not available. Please calculate totals first.");
+    return;
+  }
 
-      // Get selected menu items and quantities
-      const orderedItems = [];
-      const menuItems = document.querySelectorAll('.menu-item:checked');
-      menuItems.forEach(item => {
-        const itemName = item.parentNode.textContent.trim();
-        const price = parseFloat(item.dataset.price);
-        const quantity = parseInt(item.nextElementSibling.value);
+  // Get selected menu items and quantities
+  const orderedItems = [];
+  const menuItems = document.querySelectorAll('.menu-item:checked');
+  menuItems.forEach(item => {
+    const itemName = item.parentNode.textContent.trim();
+    const price = parseFloat(item.dataset.price);
+    const quantity = parseInt(item.nextElementSibling.value);
 
-        if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
-          orderedItems.push({
-            name: itemName,
-            price: price,
-            quantity: quantity
-          });
-        }
-      });
-
-      // Calculate total and commission
-      const commission = total * 0.10;
-
-      // Prepare data for API submission
-      const formData = {
-        "Employee Name": employeeName,
-        "Total": total.toFixed(2),
-        "Commission": commission.toFixed(2),
-        "Items Ordered": JSON.stringify(orderedItems),
-        "Discount Applied": parseFloat($("#discount").val())
-      };
-
-      // Form Submission Logic for Spreadsheet
-      $.ajax({
-        url: "https://api.apispreadsheets.com/data/wy0vT9JJYGL6a8IZ/",
-        type: "post",
-        data: formData,
-        headers: {
-          accessKey: "c9d38abe3a9ed79cd6f8d878d8986f6f",
-          secretKey: "fb1fe402814e22e7a92cb48ce0937cb0",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        success: function () {
-          alert("Form Data Submitted to Spreadsheet and Discord :)");
-          resetForm();
-        },
-        error: function () {
-          alert("There was an error :(");
-        }
-      });
-
-      // Prepare data for Discord webhook
-      const discordData = {
-        username: "Menu Order Bot",
-        content: `New order submitted by ${employeeName}`,
-        embeds: [{
-          title: "Order Details",
-          fields: [
-            { name: "Employee Name", value: employeeName, inline: true },
-            { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
-            { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
-            { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
-            { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') }
-          ],
-          color: 0x00ff00 // You can customize the color
-        }]
-      };
-
-      // Form Submission Logic for Discord webhook
-      $.ajax({
-        url: "https://discord.com/api/webhooks/1157451563212750959/FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
-        type: "post",
-        contentType: "application/json",
-        data: JSON.stringify(discordData),
-        success: function () {
-          // Do nothing specific for Discord success
-        },
-        error: function () {
-          console.error("Error sending data to Discord :(");
-        }
+    if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
+      orderedItems.push({
+        name: itemName,
+        price: price,
+        quantity: quantity
       });
     }
+  });
+
+  // Calculate total and commission
+  const commission = total * 0.10;
+
+  // Get the number of employees
+  const numEmployees = parseInt($("#numEmployees").val());
+
+  // Prepare data for API submission
+  const formData = {
+    "Employee Name": employeeName,
+    "Total": total.toFixed(2),
+    "Commission": commission.toFixed(2),
+    "Items Ordered": JSON.stringify(orderedItems),
+    "Discount Applied": parseFloat($("#discount").val()),
+    "Number of Employees": numEmployees  // Add number of employees to the data
+  };
+
+  // Form Submission Logic for Spreadsheet
+  $.ajax({
+    url: "https://api.apispreadsheets.com/data/wy0vT9JJYGL6a8IZ/",
+    type: "post",
+    data: formData,
+    headers: {
+      accessKey: "c9d38abe3a9ed79cd6f8d878d8986f6f",
+      secretKey: "fb1fe402814e22e7a92cb48ce0937cb0",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    success: function () {
+      alert("Form Data Submitted to Spreadsheet and Discord :)");
+      resetForm();
+    },
+    error: function () {
+      alert("There was an error :(");
+    }
+  });
+
+  // Prepare data for Discord webhook
+  const discordData = {
+    username: "Menu Order Bot",
+    content: `New order submitted by ${employeeName}`,
+    embeds: [{
+      title: "Order Details",
+      fields: [
+        { name: "Employee Name", value: employeeName, inline: true },
+        { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
+        { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
+        { name: "Discount Applied", value: `${formData["Discount Applied"]}%`, inline: true },
+        { name: "Items Ordered", value: orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n') },
+        { name: "Number of Employees", value: numEmployees, inline: true }  // Add number of employees to the Discord message
+      ],
+      color: 0x00ff00 // You can customize the color
+    }]
+  };
+
+  // Form Submission Logic for Discord webhook
+  $.ajax({
+    url: "https://discord.com/api/webhooks/1157451563212750959/w0H9laTAiithXLHMXLvwuNV31BR4zXiMFVKqz3KXfd2Yy4FBdvy-98bINkFCjdcrk1FqNuldbbd1b4cZOxmo3xsbngVnMEWZfOSyXxwtwMuv7iTmeLhgDbL6maZiZJnfgYgVwy",
+    type: "post",
+    contentType: "application/json",
+    data: JSON.stringify(discordData),
+    success: function () {
+      // Do nothing specific for Discord success
+    },
+    error: function () {
+      console.error("Error sending data to Discord :(");
+    }
+  });
+}
 
     function resetForm() {
       // Reset checkboxes and quantity inputs
@@ -523,6 +529,17 @@
 
     <label for="employeeName">Employee Name:</label>
     <input type="text" id="employeeName" required>
+    
+    <div style="margin-bottom: 10px;"></div>
+    
+    <label for="numEmployees">Number of Employees:</label>
+    <select id="numEmployees" onchange="calculateTotals()">
+       <option value="1">1</option>
+       <option value="2">2</option>
+       <option value="3">3</option>
+       <option value="4">4</option>
+       <option value="5">5</option>
+   </select>
 	
 	<div style="margin-bottom: 30px;"></div>
 	
