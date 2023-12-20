@@ -533,7 +533,7 @@
     <div style="margin-bottom: 10px;"></div>
     
     <label for="numEmployees">Number of Employees:</label>
-    <select id="numEmployees" onchange="calculateTotals()">
+    <select id="numEmployees" onchange="calculateTotals();">
        <option value="1">1</option>
        <option value="2">2</option>
        <option value="3">3</option>
